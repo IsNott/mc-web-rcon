@@ -1,5 +1,6 @@
 package io.graversen.minecraft.rcon;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class MinecraftClient implements IMinecraftClient {
     @Override
     public boolean isConnected(Duration timeout) {
         try {
+            System.out.println("Test Connect...");
             sendRawSilently("ping").get(timeout.toSeconds(), TimeUnit.SECONDS);
             return true;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -101,7 +103,8 @@ public class MinecraftClient implements IMinecraftClient {
             byte b = responseFromRcon.getBytes()[0];
 
             final long requestEnd = System.currentTimeMillis();
-            return new RconResponse(requestStart, requestEnd, requestId, b, responseFromRcon);
+            RconResponse rconResponse = new RconResponse(requestStart, requestEnd, requestId, b, responseFromRcon);
+            return rconResponse;
         };
     }
 

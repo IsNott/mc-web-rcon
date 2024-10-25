@@ -26,12 +26,12 @@ public class Example1 {
         // Assuming Minecraft server is running on localhost and password set to "test"
         // If no port is specified, the default Minecraft RCON port will be used
         final MinecraftRconService minecraftRconService = new MinecraftRconService(
-                RconDetails.localhost("test"),
+                RconDetails.localhost(),
                 ConnectOptions.defaults()
         );
 
         // Let's go!
-        minecraftRconService.connectBlocking(Duration.ofSeconds(3));
+        minecraftRconService.connectBlocking(Duration.ofSeconds(5));
 
         // After connecting, we can (crudely) fetch the underlying Minecraft RCON provider
         final MinecraftRcon minecraftRcon = minecraftRconService.minecraftRcon().orElseThrow(IllegalStateException::new);

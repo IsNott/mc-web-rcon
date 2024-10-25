@@ -26,6 +26,8 @@ public class MinecraftRconService implements IMinecraftRconService {
 
     private volatile CountDownLatch connectionLatch;
 
+    private volatile CountDownLatch timeOutCountDown = new CountDownLatch(50);
+
     public MinecraftRconService(RconDetails rconDetails, ConnectOptions connectOptions) {
         this.rconDetails = rconDetails;
         this.connectOptions = connectOptions;
@@ -35,12 +37,21 @@ public class MinecraftRconService implements IMinecraftRconService {
 
     @Override
     public boolean connectBlocking(Duration timeout) {
+        log.info("Trying to get connect status");
+        System.out.println("Trying to get connect status");
         if (isConnected) {
+//            log.info("Client Connected!");
+            System.out.println("Client Connected!");
             return true;
         } else {
             try {
                 connect();
+                System.out.println("Wait to Connect...");
+                timeOutCountDown.countDown();
                 connectionLatch.await(timeout.toSeconds(), TimeUnit.SECONDS);
+                if(!isConnected && timeOutCountDown.getCount() > 0){
+                    this.connectBlocking(timeout);
+                }
                 return true;
             } catch (InterruptedException e) {
                 return false;

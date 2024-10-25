@@ -16,7 +16,7 @@ public class RconDetails {
     }
 
     public static RconDetails localhost() {
-        return localhost("");
+        return localhost(Defaults.DEF_PASSWORD);
     }
 
     public static RconDetails localhost(String password) {
