@@ -60,7 +60,7 @@ public class MinecraftClient implements IMinecraftClient {
     @Override
     public boolean isConnected(Duration timeout) {
         try {
-            System.out.println("Test Connect...");
+            log.info("Test Connect...");
             sendRawSilently("ping").get(timeout.toSeconds(), TimeUnit.SECONDS);
             return true;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {

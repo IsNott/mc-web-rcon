@@ -23,8 +23,7 @@ public class WhiteListCommand extends BaseTargetedCommand {
     @Override
     public String command() {
         switch (getWhiteListMode()) {
-            case ADD:
-            case REMOVE:
+            case ADD,REMOVE:
                 return StringSubstitutor.replace(
                         "whitelist ${mode} ${target}",
                         Map.of(

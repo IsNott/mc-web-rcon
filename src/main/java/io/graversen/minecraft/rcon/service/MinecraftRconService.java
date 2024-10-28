@@ -38,15 +38,13 @@ public class MinecraftRconService implements IMinecraftRconService {
     @Override
     public boolean connectBlocking(Duration timeout) {
         log.info("Trying to get connect status");
-        System.out.println("Trying to get connect status");
         if (isConnected) {
-//            log.info("Client Connected!");
-            System.out.println("Client Connected!");
+            log.info("Client Connected!");
             return true;
         } else {
             try {
                 connect();
-                System.out.println("Wait to Connect...");
+                log.info("Wait to Connect...");
                 timeOutCountDown.countDown();
                 connectionLatch.await(timeout.toSeconds(), TimeUnit.SECONDS);
                 if(!isConnected && timeOutCountDown.getCount() > 0){
